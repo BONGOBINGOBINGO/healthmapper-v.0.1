@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,6 +98,52 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .theme-grey {
+    --background: 220 5% 50%; /* Muted Blue-Grey Background */
+    --foreground: 220 10% 95%; /* Very Light Grey Text */
+
+    --card: 220 5% 40%; /* Darker Muted Blue-Grey Cards */
+    --card-foreground: 220 10% 90%;
+
+    --popover: 220 5% 35%;
+    --popover-foreground: 220 10% 90%;
+
+    --primary: 210 60% 60%; /* Muted Blue Primary */
+    --primary-foreground: 210 10% 95%;
+
+    --secondary: 220 5% 60%; /* Lighter Muted Blue-Grey Secondary */
+    --secondary-foreground: 220 10% 95%;
+
+    --muted: 220 5% 30%;
+    --muted-foreground: 220 5% 70%;
+
+    --accent: 200 70% 70%; /* Soft Cyan Accent */
+    --accent-foreground: 200 10% 10%;
+
+    --destructive: 0 50% 50%; /* Desaturated Red */
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 220 5% 35%;
+    --input: 220 5% 45%; /* Input background similar to card but slightly lighter */
+    --ring: 210 60% 50%; /* Ring color related to primary */
+    
+    /* Chart colors for grey theme - can be desaturated versions or a monochrome scale */
+    --chart-1: 210 30% 70%;
+    --chart-2: 210 30% 60%;
+    --chart-3: 210 30% 50%;
+    --chart-4: 210 30% 40%;
+    --chart-5: 210 30% 30%;
+
+    --sidebar-background: 220 5% 25%;
+    --sidebar-foreground: 220 5% 85%;
+    --sidebar-primary: 210 60% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 5% 30%;
+    --sidebar-accent-foreground: 220 5% 90%;
+    --sidebar-border: 220 5% 30%;
+    --sidebar-ring: 210 70% 50%;
   }
 }
 

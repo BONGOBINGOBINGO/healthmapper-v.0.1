@@ -26,24 +26,25 @@ export default function HealthMapperPage() {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const [activeStep, setActiveStep] = useState<Step>('hl7Input');
+  const [activeStep, setActiveStep] = useState<Step | ''>('hl7Input');
+  const stepOrder: Step[] = ['hl7Input', 'mappingSpec', 'generatedCode', 'fhirOutput'];
 
   // Effect to clear error when inputs change
   useEffect(() => {
     setError(null);
   }, [hl7Input, mappingSpec, generatedCode]);
 
-  // Effect to reset subsequent steps if HL7 input changes
-  useEffect(() => {
-    if (activeStep !== 'hl7Input') {
-      setMappingSpec('');
-      setGeneratedCode('');
-      setFhirOutput('');
-      // Optionally, uncomment below to force user back to step 1 on HL7 input change
-      // if (hl7Input) setActiveStep('hl7Input');
+  const handleHl7InputChange = (value: string) => {
+    setHl7Input(value);
+    // When HL7 input changes, reset downstream data and potentially the active step if it's beyond input
+    setMappingSpec('');
+    setGeneratedCode('');
+    setFhirOutput('');
+    if (activeStep === 'mappingSpec' || activeStep === 'generatedCode' || activeStep === 'fhirOutput') {
+      // Optionally, force user back to step 1 or let them re-trigger.
+      // setActiveStep('hl7Input'); // This might be too abrupt.
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hl7Input]);
+  };
 
 
   const handleGenerateMappingSpec = async () => {
@@ -122,6 +123,7 @@ export default function HealthMapperPage() {
           }
         `;
         
+        // Pass hl7Input to the function constructor's scope
         const transformationFunction = new Function('hl7Input', scriptToExecute);
         const result = transformationFunction(hl7Input);
         
@@ -139,28 +141,51 @@ export default function HealthMapperPage() {
     }, 50); 
   };
 
-  const stepOrder: Step[] = ['hl7Input', 'mappingSpec', 'generatedCode', 'fhirOutput'];
+  const handleStepNavigation = (newStepValue: string) => { // newStepValue can be "" when collapsing
+    const newOpenedStep = newStepValue as Step | '';
 
-  const handleStepNavigation = (newStepValue: string) => {
-    const newStep = newStepValue as Step;
-    const currentNavigatingStepIndex = stepOrder.indexOf(newStep);
-    
-    let maxCompletedStepIndex = 0;
-    if (hl7Input) maxCompletedStepIndex = Math.max(maxCompletedStepIndex, 0);
-    if (mappingSpec) maxCompletedStepIndex = Math.max(maxCompletedStepIndex, 1);
-    if (generatedCode) maxCompletedStepIndex = Math.max(maxCompletedStepIndex, 2);
-    if (fhirOutput) maxCompletedStepIndex = Math.max(maxCompletedStepIndex, 3);
+    if (newOpenedStep === '') { // User is collapsing the current step
+      setActiveStep('');
+      return;
+    }
 
-    if (currentNavigatingStepIndex <= maxCompletedStepIndex) {
-      setActiveStep(newStep);
+    // User is trying to open a new step
+    let canNavigate = false;
+    switch(newOpenedStep) {
+      case 'hl7Input':
+        canNavigate = true;
+        break;
+      case 'mappingSpec':
+        canNavigate = !!hl7Input.trim();
+        break;
+      case 'generatedCode':
+        canNavigate = !!hl7Input.trim() && !!mappingSpec.trim();
+        break;
+      case 'fhirOutput':
+        canNavigate = !!hl7Input.trim() && !!mappingSpec.trim() && !!generatedCode.trim();
+        break;
+      default:
+        canNavigate = false; // Should not happen with typed Steps
+    }
+
+    if (canNavigate) {
+      setActiveStep(newOpenedStep);
     } else {
-      toast({ title: "Notice", description: "Please complete the previous steps first.", variant: "default" });
+      let message = "Please complete the current step(s) first to proceed.";
+      if (newOpenedStep === 'mappingSpec' && !hl7Input.trim()) {
+        message = "Please provide HL7 input first.";
+      } else if (newOpenedStep === 'generatedCode' && (!hl7Input.trim() || !mappingSpec.trim())) {
+        message = "Please provide HL7 input and generate the Mapping Specification first.";
+      } else if (newOpenedStep === 'fhirOutput' && (!hl7Input.trim() || !mappingSpec.trim() || !generatedCode.trim())) {
+        message = "Please complete all previous steps: HL7 Input, Mapping Spec, and Code Generation.";
+      }
+      toast({ title: "Prerequisite not met", description: message, variant: "default" });
     }
   };
 
 
   return (
-    <div className="container mx-auto p-4 md:p-6 lg:p-8 max-w-4xl">
+    <div className="max-w-4xl mx-auto"> {/* Removed container and padding, handled by layout now */}
       {error && (
         <Alert variant="destructive" className="mb-6">
           <AlertCircle className="h-4 w-4" />
@@ -173,7 +198,8 @@ export default function HealthMapperPage() {
         type="single" 
         className="w-full space-y-4"
         value={activeStep}
-        onValueChange={(value) => handleStepNavigation(value)}
+        onValueChange={handleStepNavigation} // onValueChange provides the value of the item to be opened, or "" if closing
+        collapsible // Explicitly ensure it's collapsible, though default for type="single"
       >
         <AccordionItem value="hl7Input" className="border rounded-lg shadow-sm bg-card">
           <AccordionTrigger className="p-6 hover:no-underline">
@@ -189,13 +215,13 @@ export default function HealthMapperPage() {
             <Textarea
               placeholder="Paste HL7 message here (e.g., MSH|^~\\&|...)"
               value={hl7Input}
-              onChange={(e) => setHl7Input(e.target.value)}
+              onChange={(e) => handleHl7InputChange(e.target.value)}
               rows={10}
               className="min-h-[200px] text-sm"
             />
             <Button 
               onClick={handleGenerateMappingSpec} 
-              disabled={isLoadingMapping || isLoadingCode || isExecutingCode}
+              disabled={isLoadingMapping || isLoadingCode || isExecutingCode || !hl7Input.trim()}
               className="mt-4 w-full"
             >
               {isLoadingMapping ? (
@@ -209,7 +235,7 @@ export default function HealthMapperPage() {
         </AccordionItem>
 
         <AccordionItem value="mappingSpec" className="border rounded-lg shadow-sm bg-card">
-          <AccordionTrigger className="p-6 hover:no-underline" disabled={!hl7Input.trim()}>
+          <AccordionTrigger className="p-6 hover:no-underline" disabled={!hl7Input.trim()}> {/* Disabled if no HL7 input */}
              <div className="flex items-center gap-3 w-full">
                 <DraftingCompass className="h-6 w-6 text-primary flex-shrink-0" />
                 <div className="text-left">
@@ -222,13 +248,14 @@ export default function HealthMapperPage() {
             <Textarea
               placeholder="Mapping specification will appear here..."
               value={mappingSpec}
-              readOnly
+              readOnly // Content generated by AI
+              onChange={(e) => setMappingSpec(e.target.value)} // Allow editing if needed
               rows={10}
               className="min-h-[200px] text-sm bg-muted/50"
             />
             <Button 
               onClick={handleGenerateCode} 
-              disabled={!mappingSpec || isLoadingMapping || isLoadingCode || isExecutingCode}
+              disabled={!mappingSpec.trim() || isLoadingMapping || isLoadingCode || isExecutingCode}
               className="mt-4 w-full"
             >
               {isLoadingCode ? (
@@ -242,7 +269,7 @@ export default function HealthMapperPage() {
         </AccordionItem>
 
         <AccordionItem value="generatedCode" className="border rounded-lg shadow-sm bg-card">
-          <AccordionTrigger className="p-6 hover:no-underline" disabled={!mappingSpec.trim()}>
+          <AccordionTrigger className="p-6 hover:no-underline" disabled={!mappingSpec.trim()}> {/* Disabled if no mapping spec */}
             <div className="flex items-center gap-3 w-full">
                 <Code2 className="h-6 w-6 text-primary flex-shrink-0" />
                 <div className="text-left">
@@ -255,13 +282,14 @@ export default function HealthMapperPage() {
             <Textarea
               placeholder="Generated JavaScript code will appear here..."
               value={generatedCode}
-              readOnly
+              readOnly // Content generated by AI
+              onChange={(e) => setGeneratedCode(e.target.value)} // Allow editing if needed
               rows={10}
               className="min-h-[200px] text-sm bg-muted/50"
             />
             <Button 
               onClick={handleExecuteCode} 
-              disabled={!generatedCode || !hl7Input || isLoadingMapping || isLoadingCode || isExecutingCode}
+              disabled={!generatedCode.trim() || !hl7Input.trim() || isLoadingMapping || isLoadingCode || isExecutingCode}
               className="mt-4 w-full"
               variant="default"
             >
@@ -276,7 +304,7 @@ export default function HealthMapperPage() {
         </AccordionItem>
 
         <AccordionItem value="fhirOutput" className="border rounded-lg shadow-sm bg-card">
-          <AccordionTrigger className="p-6 hover:no-underline" disabled={!generatedCode.trim()}>
+          <AccordionTrigger className="p-6 hover:no-underline" disabled={!generatedCode.trim()}> {/* Disabled if no generated code */}
             <div className="flex items-center gap-3 w-full">
                 <FileJson2 className="h-6 w-6 text-primary flex-shrink-0" />
                 <div className="text-left">
@@ -299,5 +327,3 @@ export default function HealthMapperPage() {
     </div>
   );
 }
-
-    
