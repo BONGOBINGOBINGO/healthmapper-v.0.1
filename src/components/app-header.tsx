@@ -1,4 +1,5 @@
 
+import Link from 'next/link'; // Import Link
 import { ThemeToggleButton } from './theme-toggle-button';
 import { ClientSideImagePicker } from './client-side-image-picker';
 import {
@@ -8,6 +9,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import { Building, Info, Settings, BookOpen, Users, Workflow } from 'lucide-react'; // Added icons
 
 export function AppHeader() {
   return (
@@ -17,7 +19,7 @@ export function AppHeader() {
           <ClientSideImagePicker
             defaultSrc="/logo.png" 
             alt="HL7 to FHIR Logo"
-            width={40} // Increased size slightly for better presence
+            width={40}
             height={40}
             storageKey="appLogoImage" 
             className="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/50 hover:border-primary transition-colors"
@@ -30,10 +32,20 @@ export function AppHeader() {
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Menubar className="rounded-none border-none bg-transparent p-0">
             <MenubarMenu>
-              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50">Resources</MenubarTrigger>
+              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50">
+                <Link href="/automation" className="flex items-center gap-1">
+                  <Workflow className="h-4 w-4" /> Automation
+                </Link>
+              </MenubarTrigger>
+            </MenubarMenu>
+
+            <MenubarMenu>
+              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50 flex items-center gap-1">
+                <BookOpen className="h-4 w-4" /> Resources
+              </MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>
                   Guide on How to Use
@@ -45,22 +57,29 @@ export function AppHeader() {
             </MenubarMenu>
 
             <MenubarMenu>
-              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50">About</MenubarTrigger>
+              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50 flex items-center gap-1">
+                 <Info className="h-4 w-4" /> About
+              </MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>
                   About HL7 to FHIR
                 </MenubarItem>
                 <MenubarItem>
-                  About the Developer
+                 <Users className="mr-2 h-4 w-4" /> About the Developer
                 </MenubarItem>
                 <MenubarItem>
-                  About Cognizant
+                 <Building className="mr-2 h-4 w-4" /> About Cognizant
                 </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
           </Menubar>
           
           <ThemeToggleButton />
+          {/* Example Settings icon - can be expanded later */}
+          {/* <Button variant="ghost" size="icon" className="w-9 h-9">
+            <Settings className="h-[1.2rem] w-[1.2rem]" />
+            <span className="sr-only">Settings</span>
+          </Button> */}
         </div>
       </div>
     </header>
