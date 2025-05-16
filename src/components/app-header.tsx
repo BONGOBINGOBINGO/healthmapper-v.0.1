@@ -9,7 +9,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Building, Info, BookOpen, Users, Workflow } from 'lucide-react';
+import { Building, Info, BookOpen, Users, Workflow, FileText } from 'lucide-react'; // Added FileText
 
 export function AppHeader() {
   return (
@@ -17,7 +17,7 @@ export function AppHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-3">
           <ClientSideImagePicker
-            href="/" // Make the logo a link to the homepage
+            href="/" 
             defaultSrc="/logo.png" 
             alt="HL7 to FHIR Logo"
             width={40}
@@ -27,7 +27,7 @@ export function AppHeader() {
             imageClassName="rounded-full"
             iconSize={16}
           />
-          <Link href="/" className="flex flex-col group"> {/* Added group for hover styles */}
+          <Link href="/" className="flex flex-col group">
             <h1 className="text-xl font-bold text-primary group-hover:underline">HL7 to FHIR</h1>
             <p className="text-xs text-muted-foreground group-hover:underline">mapper and code generator</p>
           </Link>
@@ -48,10 +48,12 @@ export function AppHeader() {
                 <BookOpen className="h-4 w-4" /> Resources
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem>
-                  Guide on How to Use
+                <MenubarItem asChild>
+                  <Link href="/resources/how-to-use" className="flex items-center gap-2 w-full cursor-pointer">
+                    <FileText className="h-4 w-4" /> Guide on How to Use
+                  </Link>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem> {/* This remains a placeholder for now */}
                   Build Your Own Version
                 </MenubarItem>
               </MenubarContent>
@@ -76,10 +78,6 @@ export function AppHeader() {
           </Menubar>
           
           <ThemeToggleButton />
-          {/* <Button variant="ghost" size="icon" className="w-9 h-9">
-            <Settings className="h-[1.2rem] w-[1.2rem]" />
-            <span className="sr-only">Settings</span>
-          </Button> */}
         </div>
       </div>
     </header>
