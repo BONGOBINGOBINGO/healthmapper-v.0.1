@@ -9,7 +9,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Building, Info, BookOpen, Users, Workflow, FileText } from 'lucide-react'; // Added FileText
+import { Building, Info, BookOpen, Users, Workflow, FileText, Puzzle } from 'lucide-react'; 
 
 export function AppHeader() {
   return (
@@ -64,14 +64,20 @@ export function AppHeader() {
                  <Info className="h-4 w-4" /> About
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem>
-                  About HL7 to FHIR
+                <MenubarItem asChild>
+                  <Link href="/about/project" className="flex items-center gap-2 w-full cursor-pointer">
+                    <Puzzle className="h-4 w-4" /> About HL7 to FHIR
+                  </Link>
                 </MenubarItem>
-                <MenubarItem>
-                 <Users className="mr-2 h-4 w-4" /> About the Developer
+                <MenubarItem asChild>
+                  <Link href="/about/developer" className="flex items-center gap-2 w-full cursor-pointer">
+                    <Users className="h-4 w-4" /> About the Developer
+                  </Link>
                 </MenubarItem>
-                <MenubarItem>
-                 <Building className="mr-2 h-4 w-4" /> About Cognizant
+                <MenubarItem asChild>
+                  <Link href="/about/company" className="flex items-center gap-2 w-full cursor-pointer">
+                    <Building className="h-4 w-4" /> About Cognizant
+                  </Link>
                 </MenubarItem>
               </MenubarContent>
             </MenubarMenu>
