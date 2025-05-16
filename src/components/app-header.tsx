@@ -16,7 +16,7 @@ export function AppHeader() {
         <div className="flex items-center gap-3">
           <ClientSideImagePicker
             defaultSrc="/logo.png" 
-            alt="HealthMapper Logo"
+            alt="HL7 to FHIR Logo"
             width={32}
             height={32}
             storageKey="appLogoImage" 
@@ -24,7 +24,7 @@ export function AppHeader() {
             imageClassName="rounded-full"
             iconSize={14}
           />
-          <h1 className="text-2xl font-bold text-primary">HealthMapper</h1>
+          <h1 className="text-2xl font-bold text-primary">HL7 to FHIR</h1>
         </div>
         
         <div className="flex items-center gap-4">
@@ -45,7 +45,7 @@ export function AppHeader() {
               <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50">About</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>
-                  About HealthMapper
+                  About HL7 to FHIR
                 </MenubarItem>
                 <MenubarItem>
                   About the Developer

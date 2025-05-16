@@ -7,8 +7,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { AppHeader } from '@/components/app-header';
 
 export const metadata: Metadata = {
-  title: 'HealthMapper',
-  description: 'HL7 to FHIR Mapper and Code Generator',
+  title: 'HL7 to FHIR',
+  description: 'mapper and code generator',
 };
 
 export default function RootLayout({
