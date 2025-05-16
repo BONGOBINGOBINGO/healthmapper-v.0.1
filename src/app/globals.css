@@ -101,49 +101,49 @@ body {
   }
 
   .theme-grey {
-    --background: 220 5% 50%; /* Muted Blue-Grey Background */
-    --foreground: 220 10% 95%; /* Very Light Grey Text */
+    --background: 210 9% 31%; /* Dark Slate Gray */
+    --foreground: 210 10% 85%; /* Light Grayish Blue */
 
-    --card: 220 5% 40%; /* Darker Muted Blue-Grey Cards */
-    --card-foreground: 220 10% 90%;
+    --card: 210 7% 26%; /* Slightly Darker Slate for Cards */
+    --card-foreground: 210 10% 80%;
 
-    --popover: 220 5% 35%;
-    --popover-foreground: 220 10% 90%;
+    --popover: 210 7% 24%; /* Darker Popover Background */
+    --popover-foreground: 210 10% 80%;
 
-    --primary: 210 60% 60%; /* Muted Blue Primary */
-    --primary-foreground: 210 10% 95%;
+    --primary: 200 80% 55%; /* Cool Blue Primary */
+    --primary-foreground: 200 10% 95%; /* Very Light for text on Primary */
 
-    --secondary: 220 5% 60%; /* Lighter Muted Blue-Grey Secondary */
-    --secondary-foreground: 220 10% 95%;
+    --secondary: 210 9% 38%; /* Lighter Gray for Secondary Elements */
+    --secondary-foreground: 210 10% 90%;
 
-    --muted: 220 5% 30%;
-    --muted-foreground: 220 5% 70%;
+    --muted: 210 7% 40%; /* Muted Gray */
+    --muted-foreground: 210 7% 65%; /* Darker Muted Text */
 
-    --accent: 200 70% 70%; /* Soft Cyan Accent */
-    --accent-foreground: 200 10% 10%;
+    --accent: 190 70% 65%; /* Bright Cyan/Teal Accent */
+    --accent-foreground: 190 100% 15%; /* Dark for text on Accent */
 
-    --destructive: 0 50% 50%; /* Desaturated Red */
+    --destructive: 0 60% 50%; /* Desaturated Red for Destructive Actions */
     --destructive-foreground: 0 0% 95%;
 
-    --border: 220 5% 35%;
-    --input: 220 5% 45%; /* Input background similar to card but slightly lighter */
-    --ring: 210 60% 50%; /* Ring color related to primary */
+    --border: 210 7% 35%; /* Border Color */
+    --input: 210 7% 28%; /* Input Background */
+    --ring: 200 80% 50%; /* Ring color related to Primary */
     
-    /* Chart colors for grey theme - can be desaturated versions or a monochrome scale */
-    --chart-1: 210 30% 70%;
-    --chart-2: 210 30% 60%;
-    --chart-3: 210 30% 50%;
-    --chart-4: 210 30% 40%;
-    --chart-5: 210 30% 30%;
+    /* Monochromatic Chart colors for grey theme */
+    --chart-1: 210 10% 70%;
+    --chart-2: 210 10% 60%;
+    --chart-3: 210 10% 50%;
+    --chart-4: 210 10% 40%;
+    --chart-5: 210 10% 30%;
 
-    --sidebar-background: 220 5% 25%;
-    --sidebar-foreground: 220 5% 85%;
-    --sidebar-primary: 210 60% 55%;
+    --sidebar-background: 210 7% 22%; /* Darker Sidebar Background */
+    --sidebar-foreground: 210 10% 75%;
+    --sidebar-primary: 200 80% 50%; /* Consistent Primary for Sidebar */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 5% 30%;
-    --sidebar-accent-foreground: 220 5% 90%;
-    --sidebar-border: 220 5% 30%;
-    --sidebar-ring: 210 70% 50%;
+    --sidebar-accent: 210 7% 28%; /* Subtle Accent for Sidebar Items */
+    --sidebar-accent-foreground: 210 10% 85%;
+    --sidebar-border: 210 7% 30%;
+    --sidebar-ring: 200 70% 45%; /* Sidebar Ring Color */
   }
 }
 
