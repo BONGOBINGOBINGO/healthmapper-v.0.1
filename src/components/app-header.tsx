@@ -26,10 +26,10 @@ export function AppHeader() {
             imageClassName="rounded-full"
             iconSize={16}
           />
-          <div>
+          <Link href="/" className="flex flex-col">
             <h1 className="text-xl font-bold text-primary">HL7 to FHIR</h1>
             <p className="text-xs text-muted-foreground">mapper and code generator</p>
-          </div>
+          </Link>
         </div>
         
         <div className="flex items-center gap-2 sm:gap-4">
@@ -85,3 +85,4 @@ export function AppHeader() {
     </header>
   );
 }
+
