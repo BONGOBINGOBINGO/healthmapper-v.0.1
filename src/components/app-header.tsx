@@ -1,5 +1,5 @@
 
-import Link from 'next/link'; // Import Link
+import Link from 'next/link';
 import { ThemeToggleButton } from './theme-toggle-button';
 import { ClientSideImagePicker } from './client-side-image-picker';
 import {
@@ -9,7 +9,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Building, Info, Settings, BookOpen, Users, Workflow } from 'lucide-react'; // Added icons
+import { Building, Info, BookOpen, Users, Workflow } from 'lucide-react';
 
 export function AppHeader() {
   return (
@@ -75,7 +75,6 @@ export function AppHeader() {
           </Menubar>
           
           <ThemeToggleButton />
-          {/* Example Settings icon - can be expanded later */}
           {/* <Button variant="ghost" size="icon" className="w-9 h-9">
             <Settings className="h-[1.2rem] w-[1.2rem]" />
             <span className="sr-only">Settings</span>
@@ -85,4 +84,3 @@ export function AppHeader() {
     </header>
   );
 }
-
