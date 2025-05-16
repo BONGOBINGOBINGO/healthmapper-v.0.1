@@ -1,6 +1,13 @@
 
 import { ThemeToggleButton } from './theme-toggle-button';
-import { ClientSideImagePicker } from './client-side-image-picker'; // Import the new component
+import { ClientSideImagePicker } from './client-side-image-picker';
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 
 export function AppHeader() {
   return (
@@ -8,20 +15,49 @@ export function AppHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-3">
           <ClientSideImagePicker
-            defaultSrc="/logo.png" // Your default logo (ensure this file exists in /public)
+            defaultSrc="/logo.png" 
             alt="HealthMapper Logo"
             width={32}
             height={32}
-            storageKey="appLogoImage" // Unique key for localStorage
-            className="h-8 w-8 rounded-full overflow-hidden border-2 border-primary/50 hover:border-primary transition-colors" // Container styling
-            imageClassName="rounded-full" // Image specific styling
+            storageKey="appLogoImage" 
+            className="h-8 w-8 rounded-full overflow-hidden border-2 border-primary/50 hover:border-primary transition-colors"
+            imageClassName="rounded-full"
             iconSize={14}
           />
           <h1 className="text-2xl font-bold text-primary">HealthMapper</h1>
         </div>
-        <div className="flex items-center gap-2">
+        
+        <div className="flex items-center gap-4">
+          <Menubar className="rounded-none border-none bg-transparent p-0">
+            <MenubarMenu>
+              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50">Resources</MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem>
+                  Guide on How to Use
+                </MenubarItem>
+                <MenubarItem>
+                  Build Your Own Version
+                </MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+
+            <MenubarMenu>
+              <MenubarTrigger className="font-medium text-sm hover:text-accent-foreground focus:bg-accent/50 data-[state=open]:bg-accent/50">About</MenubarTrigger>
+              <MenubarContent>
+                <MenubarItem>
+                  About HealthMapper
+                </MenubarItem>
+                <MenubarItem>
+                  About the Developer
+                </MenubarItem>
+                <MenubarItem>
+                  About Cognizant
+                </MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+          </Menubar>
+          
           <ThemeToggleButton />
-          {/* Future toolbar items can go here */}
         </div>
       </div>
     </header>
